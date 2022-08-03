@@ -6,4 +6,8 @@
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+h1 {
+  font-size: 12px;
+}
+</style>
