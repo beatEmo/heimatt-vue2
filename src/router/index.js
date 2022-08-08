@@ -27,17 +27,17 @@ const routes = [
         component: () => import("@/views/Home"),
       },
       {
-        path: "/Qa",
+        path: "Qa",
         name: "Qa",
         component: () => import("@/views/Qa"),
       },
       {
-        path: "/My",
+        path: "My",
         name: "My",
         component: () => import("@/views/My"),
       },
       {
-        path: "/Video",
+        path: "Video",
         name: "Video",
         component: () => import("@/views/Video"),
       },

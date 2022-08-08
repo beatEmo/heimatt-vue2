@@ -10,10 +10,7 @@ import "vant/lib/index.css";
 // import "vant/lib/index.less";
 // 动态加载rem基础值
 import "amfe-flexible";
-import { Object } from "core-js";
 // import "postcss-pxtorem";
-
-console.log(Object.prototype.toString.call({}));
 Vue.use(Vant);
 Vue.config.productionTip = false;
 

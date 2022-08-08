@@ -3,7 +3,10 @@
     <!-- 导航组件 -->
     <van-nav-bar title="登录/注册" fixed left-arrow>
       <template #left>
-        <i class="nav-icon iconfont icon-youjiantou"></i>
+        <i
+          class="nav-icon iconfont icon-youjiantou"
+          @click="$router.push({ name: 'My' })"
+        ></i>
       </template>
     </van-nav-bar>
     <!-- 导航组件 -->
@@ -37,9 +40,12 @@
           <van-count-down
             v-if="isCountDownShow"
             @finish="isCountDownShow = false"
-            :time="5 * 1000"
-            format="ss 秒"
-          />
+            :time="60 * 1000"
+          >
+            <template #default="timeData">
+              <span class="block">{{ timeData.seconds }}秒</span>
+            </template>
+          </van-count-down>
           <van-button
             v-else
             :disabled="isSend"
@@ -93,21 +99,26 @@ export default {
   },
   methods: {
     async onSendSms() {
+      let flag = true;
       try {
         await this.$refs.loginForm.validate("mobile");
       } catch (e) {
         return this.$toast("校验失败");
       }
-      this.isCountDownShow = true;
+
       try {
         await getSmsCodeApi(this.user.mobile);
       } catch (e) {
+        flag = false;
         this.isCountDownShow = false;
         if (e.response.status === 429) {
           this.$toast("发送太平凡了");
         } else {
           this.$toast("发送惜败了");
         }
+      }
+      if (flag) {
+        this.isCountDownShow = true;
       }
     },
     async onSubmit() {
@@ -120,7 +131,12 @@ export default {
       try {
         const { data } = await userLogin(user);
         this.$store.commit("getUser", data.data);
-        this.$toast.success("登录成功");
+        this.$toast.success({
+          message: "登录成功",
+          onClose: () => {
+            this.$router.push({ name: "Home" });
+          },
+        });
       } catch (e) {
         if (e.response.status === 400) {
           this.$toast.fail("用户名或验证码错误");
@@ -146,6 +162,20 @@ export default {
   }
   .input-button {
     margin: 16px;
+  }
+  .block {
+    z-index: -2;
+    display: inline-block;
+    width: 78px;
+    height: 32px;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 425px;
+    text-align: center;
+    line-height: 32px;
+    color: #fff;
+    background-color: #61adf9;
+    border: 0.1px solid #1989fa;
   }
 }
 ::v-deep(.van-nav-bar__content) {
