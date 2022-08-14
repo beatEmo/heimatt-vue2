@@ -18,7 +18,7 @@ const routes = [
   },
   {
     path: "/Layout",
-    // name: "Layout",
+    // name: "layout",
     component: () => import("@/views/Layout"),
     children: [
       {
@@ -42,6 +42,11 @@ const routes = [
         component: () => import("@/views/Video"),
       },
     ],
+  },
+  {
+    path: "/search",
+    name: "search",
+    component: () => import("@/views/Search"),
   },
   // {
   //   path: '/',

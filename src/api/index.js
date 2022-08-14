@@ -1,6 +1,14 @@
 import { login, getSmsCode, getUserInfo, getUserChannels } from "./user";
-
+import { getAticle } from "./article";
+import { getChannels, addUserChannel, removeUserChannel } from "./channel";
+import { getSearchSuggestions, getSearchResults } from "./search.js";
 export const userLogin = (data) => login(data);
 export const getSmsCodeApi = (data) => getSmsCode(data);
 export const getUserInfoApi = () => getUserInfo();
 export const getUserChannelsApi = () => getUserChannels();
+export const getAticleApi = (data) => getAticle(data);
+export const getChannelsApi = () => getChannels();
+export const addUserChannelApi = (data) => addUserChannel(data);
+export const removeUserChannelApi = (data) => removeUserChannel(data);
+export const getSearchSuggestionsApi = (data) => getSearchSuggestions(data);
+export const getSearchResultsApi = (data) => getSearchResults(data);

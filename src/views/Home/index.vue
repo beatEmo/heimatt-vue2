@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <!-- 导航 -->
-    <van-nav-bar class="page-nav-bar" :border="false" fixed placeholder>
+    <van-nav-bar class="page-nav-bar" :border="false" fixed>
       <van-button
         class="search-button"
         slot="title"
@@ -9,6 +9,7 @@
         size="small"
         round
         icon="search"
+        :to="{ name: 'search' }"
       >
         搜索
       </van-button>
@@ -20,30 +21,71 @@
         :key="index"
         :title="item.name"
       >
-        {{ item.name }}的聂荣
+        <!-- 文章列表 -->
+        <article-list :channel="item"></article-list>
+        <!-- 文章列表 -->
       </van-tab>
-      <div class="hamburger-icon" slot="nav-right">
+      <div class="hamburger-icon" slot="nav-right" @click="showChannelEdit">
         <i class="iconfont icon-gengduo"></i>
       </div>
     </van-tabs>
+
+    <!-- 导航 -->
+
+    <!-- 编辑导航弹出层 -->
+    <van-popup
+      v-model="show"
+      closeable
+      position="bottom"
+      close-icon-position="top-left"
+      :style="{ height: '100%' }"
+    >
+      <channel-edit
+        :channel="channels"
+        :active="active"
+        @update-active="onUpdateActive"
+      ></channel-edit>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { getUserChannelsApi } from "@/api";
+import { getlocalStorage } from "@/utils/storage";
+import { mapState } from "vuex";
+import articleList from "./components/article-list.vue";
+import ChannelEdit from "./components/channel-edit.vue";
 export default {
+  components: {
+    articleList,
+    ChannelEdit,
+  },
   data() {
     return {
       active: 0,
       channels: [],
+      show: false,
     };
+  },
+  computed: {
+    ...mapState(["user"]),
   },
   created() {
     this.loadChannels();
   },
   methods: {
+    onUpdateActive(index, isActive = false) {
+      this.active = index;
+      this.show = isActive;
+    },
+    showChannelEdit() {
+      this.show = true;
+    },
     async loadChannels() {
       try {
+        if (this.user) {
+          // 用户已登录 请求用户数据
+        }
         const { data } = await getUserChannelsApi();
         this.channels = data.data.channels;
       } catch (err) {
@@ -56,6 +98,8 @@ export default {
 
 <style lang="scss" scoped>
 .home-container {
+  padding-top: 46px;
+  // overflow: hidden;
   .page-nav-bar {
     height: 44px;
     ::v-deep(.van-nav-bar__content) {
@@ -110,8 +154,11 @@ export default {
     border-radius: 3px;
     bottom: 4px;
   }
-  ::v-deep(.van-tabs__nav) {
+  ::v-deep(.van-tabs__nav--line) {
     padding: 0;
   }
+}
+::v-deep(.van-tabs__nav--complete) {
+  padding-right: 34px;
 }
 </style>

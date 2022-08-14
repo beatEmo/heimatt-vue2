@@ -55,6 +55,7 @@ export default {
     top: 0;
     left: 0;
     width: 100vw;
+    padding-bottom: 50px;
   }
   .layout-tabbar {
     i.iconfont {

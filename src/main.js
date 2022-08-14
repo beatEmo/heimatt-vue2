@@ -1,5 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
+// import App from "@/高级组件/App.vue";
 import router from "./router";
 import store from "./store";
 // 全局样式
@@ -10,6 +11,7 @@ import "vant/lib/index.css";
 // import "vant/lib/index.less";
 // 动态加载rem基础值
 import "amfe-flexible";
+import "@/utils/dayjs";
 // import "postcss-pxtorem";
 Vue.use(Vant);
 Vue.config.productionTip = false;
