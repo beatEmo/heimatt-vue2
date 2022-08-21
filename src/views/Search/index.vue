@@ -24,38 +24,64 @@
       @search="onSearch"
     ></search-suggestion>
     <!-- 搜索历史 -->
-    <search-history v-else></search-history>
+    <search-history
+      v-else
+      :search-history="searchHistory"
+      @clear-search-history="searchHistory = []"
+      @search="onSearch"
+    ></search-history>
   </div>
 </template>
 
 <script>
-import SearchHistory from "./components/search-history.vue";
-import SearchResult from "./components/search-result.vue";
-import SearchSuggestion from "./components/search-suggestion.vue";
+import SearchHistory from './components/search-history.vue'
+import SearchResult from './components/search-result.vue'
+import SearchSuggestion from './components/search-suggestion.vue'
+import { setlocalStorage, getlocalStorage } from '@/utils/storage'
 export default {
+  name: 'search',
   components: {
     SearchHistory,
     SearchResult,
-    SearchSuggestion,
+    SearchSuggestion
+  },
+  watch: {
+    searchHistory: {
+      handler(newVal) {
+        setlocalStorage('searchHistory', newVal)
+      },
+      deep: true
+    }
   },
   data() {
     return {
-      searchText: "",
+      searchText: '',
       isResultShow: false,
-    };
+      searchHistory: getlocalStorage('searchHistory') ?? []
+    }
   },
   methods: {
     onSearch(value) {
-      this.isResultShow = true;
-      this.searchText = value;
+      if (!!value) {
+        // 搜索框中有内容 才可进行搜索操作
+        this.isResultShow = true
+
+        const index = this.searchHistory.indexOf(value)
+        if (index !== -1) {
+          this.searchHistory.splice(index, 1)
+        }
+        this.searchHistory.unshift(value)
+
+        this.searchText = value
+      }
     },
     onCancel() {
       this.$router.push({
-        name: "Home",
-      });
-    },
-  },
-};
+        name: 'Home'
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

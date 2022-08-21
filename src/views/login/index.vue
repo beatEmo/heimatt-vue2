@@ -69,85 +69,85 @@
 </template>
 
 <script>
-import { userLogin, getSmsCodeApi } from "@/api";
+import { userLogin, getSmsCodeApi } from '@/api'
 export default {
-  name: "LoginPage",
+  name: 'LoginPage',
   data() {
     return {
       isLogin: false,
       isSend: false,
       user: {
-        mobile: "13911111111",
-        code: "246810",
+        mobile: '13911111111',
+        code: '246810'
       },
       isCountDownShow: false,
       userFormRules: {
         mobile: [
-          { required: true, message: "手机号不能为空" },
+          { required: true, message: '手机号不能为空' },
           {
             pattern: /^1[3|5|7|8]\d{9}$/,
-            message: "手机号格式错误",
-            trigger: "onChange",
-          },
+            message: '手机号格式错误',
+            trigger: 'onChange'
+          }
         ],
         code: [
-          { required: true, message: "验证码不能为空" },
-          { pattern: /^\d{6}$/, message: "验证码格式错误" },
-        ],
-      },
-    };
+          { required: true, message: '验证码不能为空' },
+          { pattern: /^\d{6}$/, message: '验证码格式错误' }
+        ]
+      }
+    }
   },
   methods: {
     async onSendSms() {
-      let flag = true;
+      let flag = true
       try {
-        await this.$refs.loginForm.validate("mobile");
+        await this.$refs.loginForm.validate('mobile')
       } catch (e) {
-        return this.$toast("校验失败");
+        return this.$toast('校验失败')
       }
 
       try {
-        await getSmsCodeApi(this.user.mobile);
+        await getSmsCodeApi(this.user.mobile)
       } catch (e) {
-        flag = false;
-        this.isCountDownShow = false;
+        flag = false
+        this.isCountDownShow = false
         if (e.response.status === 429) {
-          this.$toast("发送太平凡了");
+          this.$toast('发送太平凡了')
         } else {
-          this.$toast("发送惜败了");
+          this.$toast('发送惜败了')
         }
       }
       if (flag) {
-        this.isCountDownShow = true;
+        this.isCountDownShow = true
       }
     },
     async onSubmit() {
-      const user = this.user;
+      const user = this.user
       this.$toast.loading({
-        message: "加载中...",
+        message: '加载中...',
         forbidClick: true,
-        duration: 0,
-      });
+        duration: 0
+      })
       try {
-        const { data } = await userLogin(user);
-        this.$store.commit("getUser", data.data);
+        const { data } = await userLogin(user)
+        this.$store.commit('getUser', data.data)
         this.$toast.success({
-          message: "登录成功",
+          message: '登录成功',
           onClose: () => {
-            this.$router.push({ name: "Home" });
-          },
-        });
+            this.$router.push({ name: 'Home' })
+          }
+        })
       } catch (e) {
         if (e.response.status === 400) {
-          this.$toast.fail("用户名或验证码错误");
+          this.$toast.fail('用户名或验证码错误')
         } else {
-          console.log("登录失败", e);
-          this.$toast.fail(`登录失败${e.message}`);
+          console.log('登录失败', e)
+          this.$toast.fail(`登录失败${e.message}`)
         }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

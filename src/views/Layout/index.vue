@@ -17,31 +17,31 @@
       </van-tabbar-item>
       <van-tabbar-item :to="{ name: 'My' }">
         <i slot="icon" class="iconfont icon-wode"></i>
-        <span class="text">{{ user ? "我的" : "未登录" }}</span>
+        <span class="text">{{ user ? '我的' : '未登录' }}</span>
       </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       // active: parseInt(localStorage.getItem("LAYOUT_ACTIVE")) || "Home",
       // active: this.$route.name,
-    };
+    }
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(['user'])
   },
   watch: {
     active(newVal, oldVal) {
-      if (newVal === oldVal) return;
-      localStorage.setItem("LAYOUT_ACTIVE", newVal);
-    },
-  },
-};
+      if (newVal === oldVal) return
+      localStorage.setItem('LAYOUT_ACTIVE', newVal)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

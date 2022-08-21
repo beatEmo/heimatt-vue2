@@ -8,11 +8,12 @@ module.exports = {
     //   // 配置兼容环境信息
     //   browsers: ["Android >= 4.0", "iOS >= 8"],
     // },
-    "postcss-pxtorem": {
+    'postcss-pxtorem': {
       // 把px -> rem
       rootValue: 37.5,
       // 配置转换的css属性 *是涉及属性都转
-      propList: ["*"],
-    },
-  },
-};
+      propList: ['*'],
+      exclude: 'github-markdown'
+    }
+  }
+}

@@ -26,18 +26,18 @@
 </template>
 
 <script>
-import ArticleItem from "@/components/ArticleItem.vue";
-import { getAticleApi } from "@/api";
+import ArticleItem from '@/components/ArticleItem.vue'
+import { getAticleApi } from '@/api'
 export default {
-  name: "articleList",
+  name: 'articleList',
   components: {
-    ArticleItem,
+    ArticleItem
   },
   props: {
     channel: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   created() {},
   mounted() {},
@@ -49,35 +49,35 @@ export default {
       timestamp: null,
       error: false,
       isRefreshLoading: false,
-      refreshSuccessText: "",
-    };
+      refreshSuccessText: ''
+    }
   },
   methods: {
     enter() {
-      alet(1);
+      alet(1)
     },
     async onLoad() {
       try {
         let { data } = await getAticleApi({
           channel_id: this.channel.id,
           timestamp: this.timestamp || Date.now(),
-          with_top: 0,
-        });
-        let { results } = data.data;
+          with_top: 0
+        })
+        let { results } = data.data
         // 将新数据添加到展示的列表  直接赋值的化新内容覆盖老内容
-        this.list.push(...results);
-        this.loading = false;
+        this.list.push(...results)
+        this.loading = false
         if (results.length) {
           // 表示还有数据 就更新下次获取的事件戳
-          this.timestamp = data.data.pre_timestamp;
+          this.timestamp = data.data.pre_timestamp
         } else {
           // 没数据时 将finished设置为true
-          this.finished = true;
+          this.finished = true
         }
       } catch (e) {
-        console.log(e);
-        this.loading = false; // 关闭 loading 效果
-        this.error = true; // 开启错误提示
+        console.log(e)
+        this.loading = false // 关闭 loading 效果
+        this.error = true // 开启错误提示
       }
     },
     async onRefresh() {
@@ -85,21 +85,21 @@ export default {
         const { data } = await getAticleApi({
           channel_id: this.channel.id, // 频道 id
           timestamp: Date.now(), // 下拉刷新每次都应该获取最新数据
-          with_top: 1, // 是否包含置顶，进入页面第一次请求时要包含置顶文章，1-包含置顶，0-不包含
-        });
-        const { results } = data.data;
+          with_top: 1 // 是否包含置顶，进入页面第一次请求时要包含置顶文章，1-包含置顶，0-不包含
+        })
+        const { results } = data.data
         // 将最新得到数据 加到展示列表前部
-        this.list.unshift(...results);
-        this.isRefreshLoading = false;
-        this.refreshSuccessText = `刷新成功，更新了${results.length}条数据`;
+        this.list.unshift(...results)
+        this.isRefreshLoading = false
+        this.refreshSuccessText = `刷新成功，更新了${results.length}条数据`
       } catch (e) {
-        console.log(e);
-        this.isRefreshLoading = false; // 关闭下拉刷新的 loading 状态
-        this.$toast("刷新失败");
+        console.log(e)
+        this.isRefreshLoading = false // 关闭下拉刷新的 loading 状态
+        this.$toast('刷新失败')
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span>{{ label ? label : "标题" }}</span>
+    <span>{{ label ? label : '标题' }}</span>
     <slot></slot>
     <p v-if="errormsg" style="color: red">{{ errormsg }}</p>
   </div>
@@ -8,16 +8,16 @@
 
 <script>
 export default {
-  props: ["label"],
+  props: ['label'],
   data() {
     return {
-      errormsg: "ssscaf",
-    };
+      errormsg: 'ssscaf'
+    }
   },
   created() {
-    this.$on("checkname", () => {});
-  },
-};
+    this.$on('checkname', () => {})
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>

@@ -12,7 +12,7 @@
         round
         @click="isEdit = !isEdit"
       >
-        <span slot="default">{{ isEdit ? "完成" : "编辑" }}</span>
+        <span slot="default">{{ isEdit ? '完成' : '编辑' }}</span>
       </van-button>
     </van-cell>
     <van-grid :gutter="10" class="my-grid">
@@ -59,99 +59,99 @@
 </template>
 
 <script>
-import { getChannelsApi, addUserChannelApi, removeUserChannelApi } from "@/api";
-import { mapState } from "vuex";
-import { getlocalStorage, setlocalStorage } from "@/utils/storage";
+import { getChannelsApi, addUserChannelApi, removeUserChannelApi } from '@/api'
+import { mapState } from 'vuex'
+import { getlocalStorage, setlocalStorage } from '@/utils/storage'
 export default {
-  name: "ChannelEdit",
+  name: 'ChannelEdit',
   props: {
     channel: {
       type: [Array, Object],
-      required: true,
+      required: true
     },
     active: {
-      required: true,
-    },
+      required: true
+    }
   },
   created() {
-    this.loadAllChannels();
+    this.loadAllChannels()
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(['user']),
     recommendChannels() {
       return this.allChannels.reduce((prev, cur) => {
-        let flag = this.channel.some((item) => item.id === cur.id);
+        let flag = this.channel.some((item) => item.id === cur.id)
         if (!flag) {
-          prev.push(cur);
+          prev.push(cur)
         }
-        return prev;
-      }, []);
-    },
+        return prev
+      }, [])
+    }
   },
   data() {
     return {
       allChannels: [],
       isEdit: false,
-      fiexdChannel: [0],
-    };
+      fiexdChannel: [0]
+    }
   },
   methods: {
     onMyChannelClick(channel, index) {
       if (this.isEdit) {
         // 编辑状态
         if (this.fiexdChannel.includes(channel)) {
-          return;
+          return
         }
-        this.channel.splice(index, 1);
+        this.channel.splice(index, 1)
         if (index <= this.active) {
-          this.$emit("update-active", this.active - 1, true);
+          this.$emit('update-active', this.active - 1, true)
         }
         // 处理数据持久化
-        this.deleteChannel(channel);
+        this.deleteChannel(channel)
       } else {
         // 非编辑状态 执行频道切换
-        this.$emit("update-active", index);
+        this.$emit('update-active', index)
       }
     },
     async deleteChannel(channel) {
       try {
         if (this.user) {
-          await removeUserChannelApi(channel.id);
+          await removeUserChannelApi(channel.id)
         } else {
           // 未登录 信息存本地
-          setlocalStorage("TOUTIAO_CHANNELS", this.channel);
+          setlocalStorage('TOUTIAO_CHANNELS', this.channel)
         }
       } catch (e) {
-        this.$toast("报错失败");
+        this.$toast('报错失败')
       }
     },
     async addChannels(item) {
-      this.channel.push(item);
+      this.channel.push(item)
       if (this.user) {
         // 用户登录 同步频道编辑信息
         try {
           await addUserChannelApi({
             id: item.id,
-            seq: this.channel.length,
-          });
+            seq: this.channel.length
+          })
         } catch (e) {
-          this.$toast("报错失败");
+          this.$toast('报错失败')
         }
       } else {
         // 未登录 信息存本地
-        setlocalStorage("TOUTIAO_CHANNELS", this.channel);
+        setlocalStorage('TOUTIAO_CHANNELS', this.channel)
       }
     },
     async loadAllChannels() {
       try {
-        const { data } = await getChannelsApi();
-        this.allChannels = data.data.channels;
+        const { data } = await getChannelsApi()
+        this.allChannels = data.data.channels
       } catch (e) {
-        this.$toast("数据获取失败");
+        this.$toast('数据获取失败')
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

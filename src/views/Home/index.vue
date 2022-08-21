@@ -50,50 +50,50 @@
 </template>
 
 <script>
-import { getUserChannelsApi } from "@/api";
-import { getlocalStorage } from "@/utils/storage";
-import { mapState } from "vuex";
-import articleList from "./components/article-list.vue";
-import ChannelEdit from "./components/channel-edit.vue";
+import { getUserChannelsApi } from '@/api'
+import { getlocalStorage } from '@/utils/storage'
+import { mapState } from 'vuex'
+import articleList from './components/article-list.vue'
+import ChannelEdit from './components/channel-edit.vue'
 export default {
   components: {
     articleList,
-    ChannelEdit,
+    ChannelEdit
   },
   data() {
     return {
       active: 0,
       channels: [],
-      show: false,
-    };
+      show: false
+    }
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(['user'])
   },
   created() {
-    this.loadChannels();
+    this.loadChannels()
   },
   methods: {
     onUpdateActive(index, isActive = false) {
-      this.active = index;
-      this.show = isActive;
+      this.active = index
+      this.show = isActive
     },
     showChannelEdit() {
-      this.show = true;
+      this.show = true
     },
     async loadChannels() {
       try {
         if (this.user) {
           // 用户已登录 请求用户数据
         }
-        const { data } = await getUserChannelsApi();
-        this.channels = data.data.channels;
+        const { data } = await getUserChannelsApi()
+        this.channels = data.data.channels
       } catch (err) {
-        this.$toast("请求失败嘞");
+        this.$toast('请求失败嘞')
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

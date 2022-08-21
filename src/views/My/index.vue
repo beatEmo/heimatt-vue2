@@ -9,7 +9,13 @@
           <span class="name">{{ userInfo.name }}</span>
         </div>
         <div class="right">
-          <van-button type="default" size="mini" round>信息按钮</van-button>
+          <van-button
+            type="default"
+            size="mini"
+            round
+            :to="{ name: 'user-profile' }"
+            >信息按钮</van-button
+          >
         </div>
       </div>
       <div class="data-stats">
@@ -38,8 +44,8 @@
           $router.push({
             name: 'login',
             query: {
-              id: 123,
-            },
+              id: 123
+            }
           })
         "
       >
@@ -80,53 +86,53 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { getUserInfoApi } from "@/api";
+import { mapState } from 'vuex'
+import { getUserInfoApi } from '@/api'
 export default {
   data() {
     return {
-      userInfo: {},
-    };
+      userInfo: {}
+    }
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(['user'])
   },
 
   created() {
-    this.user && this.loadUserInfo();
+    this.user && this.loadUserInfo()
   },
   methods: {
     onLogout() {
       this.$dialog
         .confirm({
-          title: "退出提示",
-          message: "是否确定退出",
+          title: '退出提示',
+          message: '是否确定退出'
         })
         .then(() => {
-          this.$store.commit("getUser", "");
+          this.$store.commit('getUser', '')
         })
         .catch(() => {
           // on cancel
-          console.log("取消执行这里");
-        });
+          console.log('取消执行这里')
+        })
     },
     async loadUserInfo() {
       try {
-        let { data } = await getUserInfoApi();
-        this.userInfo = data.data;
+        let { data } = await getUserInfoApi()
+        this.userInfo = data.data
       } catch (e) {
-        this.$toast("获取数据惜败");
+        this.$toast('获取数据惜败')
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .my-container {
   position: relative;
   height: 180px;
-  background: url("~@/assets/banner.png") no-repeat center;
+  background: url('~@/assets/banner.png') no-repeat center;
   background-size: cover;
   header {
     position: absolute;

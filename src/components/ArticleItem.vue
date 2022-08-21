@@ -1,6 +1,9 @@
 <template>
   <div class="article-item">
-    <van-cell size="large">
+    <van-cell
+      size="large"
+      :to="{ name: 'article', params: { articleId: article.art_id } }"
+    >
       <div class="title" slot="title">{{ article.title }}</div>
       <div class="cover-wrap" slot="label">
         <div class="cover-item" v-if="article.cover.type === 3">
@@ -30,14 +33,14 @@
 
 <script>
 export default {
-  name: "ArticleItem",
+  name: 'ArticleItem',
   props: {
     article: {
       type: Object,
-      required: true,
-    },
-  },
-};
+      required: true
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .article-item {

@@ -17,15 +17,15 @@
   </div>
 </template>
 <script>
-import { getSearchResultsApi } from "@/api";
+import { getSearchResultsApi } from '@/api'
 export default {
-  name: "SearchResult",
+  name: 'SearchResult',
   components: {},
   props: {
     searchText: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
@@ -34,8 +34,8 @@ export default {
       finished: false,
       page: 1,
       perPage: 20,
-      error: false,
-    };
+      error: false
+    }
   },
   computed: {},
   watch: {},
@@ -43,27 +43,27 @@ export default {
   mounted() {},
   methods: {
     async onLoad() {
-      console.log(this.searchText);
+      console.log(this.searchText)
       try {
         const { data } = await getSearchResultsApi({
           page: this.page,
           per_page: this.perPage,
-          q: this.searchText,
-        });
-        const { results } = data.data;
-        this.list.push(...results);
-        this.loading = false;
+          q: this.searchText
+        })
+        const { results } = data.data
+        this.list.push(...results)
+        this.loading = false
         if (data?.data?.results.length === 0) {
-          this.finished = true;
+          this.finished = true
         } else {
-          this.page++;
+          this.page++
         }
       } catch (e) {
-        this.error = true;
-        this.loading = false;
+        this.error = true
+        this.loading = false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="scss" scoped></style>

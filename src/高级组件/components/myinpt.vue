@@ -6,14 +6,14 @@
 
 <script>
 export default {
-  props: ["value"],
+  props: ['value'],
   methods: {
     fn(e) {
-      this.$emit("input", e.target.value);
-      this.$parent.$emit("checkname");
-    },
-  },
-};
+      this.$emit('input', e.target.value)
+      this.$parent.$emit('checkname')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
